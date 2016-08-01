@@ -1,0 +1,4 @@
+{"service_id":"test1","log":"{"a":1,"b":1}"}
+{"service_id":"test1","log":"{"a":2,"b":2}"}
+{"service_id":"test2","log":"{"a":1,"b":1}"}
+{"service_id":"test2","log":"{"a":2,"b":2}"}
