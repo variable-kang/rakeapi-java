@@ -118,7 +118,7 @@ LoggerAPI는 싱글톤으로 프로세스당 하나만 생성되며, 이것을 �
 
 >> service.id
 - service.id 서버의 인스턴스 명을 넣으시면 됩니다. 
-- service.id 예시 : Test-Camera서비스를 3개의 톰캣 인스턴스로 구성할 때, Test-Camera01, Test-Camera02, Test-Camera03 와 처럼 같은 서비스 명을 가져도 3개의 인스턴스가 서로 구분 되도록 네이밍을 하는 것이 바람직합니다.
+- service.id 예시 : Test-Camera서비스를 3개의 톰캣 인스턴스로 구성할 때, ```Test-Camera01, Test-Camera02, Test-Camera03``` 처럼 같은 서비스 명을 가져도 3개의 인스턴스가 서로 구분 되도록 네이밍을 하는 것이 바람직합니다.
 
 ~~~~
 Properties properties = new java.util.Properties();
