@@ -102,6 +102,14 @@ public class LoggerAPI {
         }
     }
 
+    /**
+     * This method send log to DIC kafka broker. The difference thing with log method, directSend() doesn't use Queue, Just sending log to Kafka Broker.
+     * When your goal is no delay sending, You can use this method. The directSend go with log losing possibility because of don't use queue.
+     *
+     * @param topic kafka topic
+     * @param log kafka message
+     * @return result of sending
+     */
     public boolean directSend(String topic, String log){
         logger.debug("direct send. topic: [{}], log: [{}]", topic, log);
         if (!serviceIdSet.contains(topic)) serviceIdSet.add(topic);
@@ -114,6 +122,10 @@ public class LoggerAPI {
         }
     }
 
+    /**
+     * This method get Disk Usage ratio at server.
+     * @return Disk Usage ratio
+     */
     public long getDiskusage(){
         return monitoringTools.getSystemDiskUsage();
     }
