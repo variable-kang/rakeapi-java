@@ -102,6 +102,22 @@ public class LoggerAPI {
         }
     }
 
+    public boolean directSend(String topic, String log){
+        logger.debug("direct send. topic: [{}], log: [{}]", topic, log);
+        if (!serviceIdSet.contains(topic)) serviceIdSet.add(topic);
+        try {
+            String sendMessage = parseJsonToString(topic, log);
+            return sender.send(sendMessage);
+        } catch (IOException e) {
+            errorLog.error("Error while converting json format", e);
+            return false;
+        }
+    }
+
+    public long getDiskusage(){
+        return monitoringTools.getSystemDiskUsage();
+    }
+
     /**
      * This method is String parse to Json. Because of matching format to write Filequeue, RakeAPI does parsing.
      *
@@ -210,7 +226,7 @@ public class LoggerAPI {
      *
      * @return number of remaining message
      */
-    private long getQueueSize() {
+    public long getQueueSize() {
         return queue.size();
     }
 

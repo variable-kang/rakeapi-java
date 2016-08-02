@@ -186,10 +186,12 @@ public class MonitoringTools {
      * @return usable disk space
      */
     public long getSystemDiskUsage() {
-        long usableSpace = 0;
+        long spaceRatio = 0L;
         String filepath = "proto".equals(rakeProperties.get("api.type")) ? "./" : dir_path;
         File file = new File(filepath);
-        usableSpace = (file.getUsableSpace() / GB);
-        return usableSpace;
+        long totalSpace = file.getTotalSpace();
+        long usableSpace = file.getUsableSpace();
+        spaceRatio = (long)((double)usableSpace/(double)totalSpace * 100);
+        return spaceRatio;
     }
 }

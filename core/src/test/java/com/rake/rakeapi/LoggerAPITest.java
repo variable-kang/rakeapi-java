@@ -26,7 +26,7 @@ public class LoggerAPITest {
         loggerAPI.close(true);
     }
 
-    //    @Ignore
+    @Ignore
     @Test
     public void dev_AsyncLoggerAPITest() throws Exception {
         Properties properties = new Properties();
@@ -43,6 +43,20 @@ public class LoggerAPITest {
             assertEquals("ASyncLoggerAPITest", loggerAPI.log("kbs2", "test_service_kafka_async 24 hour!!"), true);
 
     //    Thread.sleep(30000);
+        loggerAPI.close(true);
+    }
+
+    @Test
+    public void apiTest() throws Exception{
+        Properties properties = new Properties();
+        properties.setProperty("api.type", "dev");
+        properties.setProperty("service.id", "rakeapi-tester");
+        LoggerAPI loggerAPI = LoggerAPI.getInstance(properties);
+        System.out.println("Disk Usage Test : " + loggerAPI.getDiskusage());
+
+        for(int i=0;i<100;i++) {
+            loggerAPI.directSend("rakeapi-admin-test", "RakeAPI direct Send Test. 전송 성공");
+        }
         loggerAPI.close(true);
     }
 
