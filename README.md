@@ -108,6 +108,18 @@ dependencies {
 LoggerAPI는 싱글톤으로 프로세스당 하나만 생성되며, 이것을 통해 데이터를 전송하게 됩니다.
 예제 코드는 아래와 같고, 상용 로그 수집의 경우, topic(Kafka Topic)을 사전에 협의하여 사용하여야 수집이 가능합니다.
 (topic의 경우, 변경될 가능성이 있으므로, 설정으로 빼기를 권장) 테스트의 경우, 어떤 topic도 사용할 수 있으며, ConsoleSender를 사용하여, 전송되는 데이터를 콘솔로 확인할 수 있습니다.
+
+> properties의 "api.type" 과 "service.id"는 필수로 넣어줘야 하는 설정 값입니다.
+>> api.type
+- "proto" - 로컬 콘솔 출력
+- "dev" - 개발 (OA,IVPN) Broker로 전송 
+- "live" - 상용 (커머스) Broker로 전송 
+세 가지 중 선택하여 넣을 수 있습니다.
+
+>> service.id
+* service.id 서버의 인스턴스 명을 넣으시면 됩니다. 
+* service.id 예시 : Test-Camera서비스를 3개의 톰캣 인스턴스로 구성할 때, Test-Camera01, Test-Camera02, Test-Camera03 와 처럼 같은 서비스 명을 가져도 3개의 인스턴스가 서로 구분 되도록 네이밍을 하는 것이 바람직합니다.
+
 ~~~~
 Properties properties = new java.util.Properties();
 properties.setProperty("api.type", "live"); // 필수 설정 값입니다. proto, dev, live 중 한 가지를 입력해야 합니다.
