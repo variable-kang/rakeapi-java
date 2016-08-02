@@ -230,7 +230,7 @@ RakeAPI는 Queue와 Sender 클래스를 동적으로 로딩합니다.
 동적 로딩이 실패하는 경우는 보통 Sender에서 발생하고, Sender생성시 전송해야 하는 호스트 네임을 찾지 못할 때 발생합니다.
 위 목록에서 '사전 작업'을 참조하여 전송할 Kafka Broker의 호스트 네임을 등록해야 합니다.
 
-* ClassNotFoundException
+* ClassNotFoundException :
 동적 로딩 시 Queue또는 Sender 클래스를 찾지 못할 때 발생합니다.
 정상적으로 배포됐을 시 위 예외가 발생하지 않지만, 만일 ClassNotFoundException가 발생했다면 DI팀에 문의 하셔야 합니다.
 http://jira.skplanet.com/browse/DI/?selectedTab=com.atlassian.jira.jira-projects-plugin:summary-panel
