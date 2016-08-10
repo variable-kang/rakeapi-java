@@ -2,7 +2,7 @@ package com.rake.rakeapi;
 
 import com.rake.rakeapi.heartbeat.*;
 import com.rake.rakeapi.util.RakeProperties;
-import com.skplanet.pdp.sentinel.shuttle.LogAgentSentinelShuttle;
+//import com.skplanet.pdp.sentinel.shuttle.LogAgentSentinelShuttle;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +71,7 @@ public class LoggerAPI {
     public static synchronized LoggerAPI getInstance(Properties properties) throws Exception {
         if (null == instance) {
             instance = new LoggerAPI(properties);
-            instance.startMonitoring();
+//            instance.startMonitoring();
         }
         return instance;
     }
@@ -107,10 +107,10 @@ public class LoggerAPI {
      * When your goal is no delay sending, You can use this method. The directSend go with log losing possibility because of don't use queue.
      *
      * @param topic kafka topic
-     * @param log kafka message
+     * @param log   kafka message
      * @return result of sending
      */
-    public boolean directSend(String topic, String log){
+    public boolean directSend(String topic, String log) {
         logger.debug("direct send. topic: [{}], log: [{}]", topic, log);
         if (!serviceIdSet.contains(topic)) serviceIdSet.add(topic);
         try {
@@ -124,9 +124,10 @@ public class LoggerAPI {
 
     /**
      * This method get Disk Usage ratio at server.
+     *
      * @return Disk Usage ratio
      */
-    public long getDiskusage(){
+    public long getDiskusage() {
         return monitoringTools.getSystemDiskUsage();
     }
 
@@ -287,72 +288,71 @@ public class LoggerAPI {
      *
      * @return shuttle to String message
      */
-    private String getShuttleMessage() {
-        LogAgentSentinelShuttle shuttle = null;
-
-        try {
-            shuttle = new LogAgentSentinelShuttle();
-
-            shuttle.log_time(getCurrentTime())
-                    .hostname(monitoringTools.CONSTANT_HOST_NAME)
-                    .host_ip(monitoringTools.CONSTANT_HOST_IP)
-                    .system_load(monitoringTools.getSystemLoad())
-                    .system_disk_usage(monitoringTools.getSystemDiskUsage())
-                    .logagent_directory(monitoringTools.getFilePath())
-                    .reader_count(0L/*RakeAPI didn't need column*/)
-                    .in_work_queue_count(monitoringTools.getWorkingQueueCount())
-                    .in_waiting_queue_count(getQueueSize())
-                    .time_delta(monitoringTools.getTimeDelta())
-                    .error_count(errorLog.getErrorCount())
-                    .send_error_count(errorLog.getSendCount())
-                    .last_error_message(errorLog.getLastError())
-                    .file_queue_size(monitoringTools.getFileSize())
-                    .service_name(rakeProperties.get("service.id") + "-" + rakeProperties.get("sender.rakeapi.version"))
-                    .topic(monitoringTools.getTopic(getServiceIdSet()))
-                    .send_log_count(getLogAllCount())
-                    .topics(sender.getLogCountMap());
-            ;
-            return shuttle.toString();
-        } catch (Exception e) {
-            errorLog.error("Data insufficiency Error in rakeapi-monitoring.", e);
-            return "Monitoring Error";
-        }
-    }
+//    private String getShuttleMessage() {
+//        LogAgentSentinelShuttle shuttle = null;
+//
+//        try {
+//            shuttle = new LogAgentSentinelShuttle();
+//
+//            shuttle.log_time(getCurrentTime())
+//                    .hostname(monitoringTools.CONSTANT_HOST_NAME)
+//                    .host_ip(monitoringTools.CONSTANT_HOST_IP)
+//                    .system_load(monitoringTools.getSystemLoad())
+//                    .system_disk_usage(monitoringTools.getSystemDiskUsage())
+//                    .logagent_directory(monitoringTools.getFilePath())
+//                    .reader_count(0L/*RakeAPI didn't need column*/)
+//                    .in_work_queue_count(monitoringTools.getWorkingQueueCount())
+//                    .in_waiting_queue_count(getQueueSize())
+//                    .time_delta(monitoringTools.getTimeDelta())
+//                    .error_count(errorLog.getErrorCount())
+//                    .send_error_count(errorLog.getSendCount())
+//                    .last_error_message(errorLog.getLastError())
+//                    .file_queue_size(monitoringTools.getFileSize())
+//                    .service_name(rakeProperties.get("service.id") + "-" + rakeProperties.get("sender.rakeapi.version"))
+//                    .topic(monitoringTools.getTopic(getServiceIdSet()))
+//                    .send_log_count(getLogAllCount())
+//                    .topics(sender.getLogCountMap());
+//            return shuttle.toString();
+//        } catch (Exception e) {
+//            errorLog.error("Data insufficiency Error in rakeapi-monitoring.", e);
+//            return "Monitoring Error";
+//        }
+//    }
 
     /**
      * This method start rakeapi monitoring log to check rakeapi's health.
      * If invoke error in middle of making log, this write error log. but process don't dead and still run.
      */
-    private void startMonitoring() {
-        boolean useHeartbeat = "true".equals(rakeProperties.get("sender.use_monitoring"));
-        logger.info("use.heartbeat: {}", useHeartbeat);
-        if (useHeartbeat) {
-            int timedelta = Integer.parseInt(rakeProperties.get("sender.monitoring_timedelta"));
-            logger.info("Heartbeat time delta is : {}", timedelta);
-            final String hbTopic = rakeProperties.get("sender.monitoring_topic");
-            monitorExecutorService = Executors.newScheduledThreadPool(1, new ThreadFactoryFactory(new ThreadGroup("sender"), "monitoring-sender"));
-            monitorExecutorService.scheduleAtFixedRate(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        String logMessage = parseJsonToString(hbTopic, getShuttleMessage());
-                        logger.debug("RakeAPI monitoring log is : {}", logMessage);
-                        sender.send(logMessage);
-                        errorLog.reset();
-                        resetLogCount();
-                    } catch (IOException ioe) {
-                        errorLog.error("Monitoring data json parsing error", ioe);
-                    }
-                }
-            }, 0, timedelta, TimeUnit.MINUTES);
-            Runtime.getRuntime().addShutdownHook(new Thread() {
-                @Override
-                public void run() {
-                    logger.info("Heartbeat Sender is closing");
-                    monitorExecutorService.shutdown();
-                    logger.info("Heartbeat Sender is closed");
-                }
-            });
-        }
-    }
+//    private void startMonitoring() {
+//        boolean useHeartbeat = "true".equals(rakeProperties.get("sender.use_monitoring"));
+//        logger.info("use.heartbeat: {}", useHeartbeat);
+//        if (useHeartbeat) {
+//            int timedelta = Integer.parseInt(rakeProperties.get("sender.monitoring_timedelta"));
+//            logger.info("Heartbeat time delta is : {}", timedelta);
+//            final String hbTopic = rakeProperties.get("sender.monitoring_topic");
+//            monitorExecutorService = Executors.newScheduledThreadPool(1, new ThreadFactoryFactory(new ThreadGroup("sender"), "monitoring-sender"));
+//            monitorExecutorService.scheduleAtFixedRate(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        String logMessage = parseJsonToString(hbTopic, getShuttleMessage());
+//                        logger.debug("RakeAPI monitoring log is : {}", logMessage);
+//                        sender.send(logMessage);
+//                        errorLog.reset();
+//                        resetLogCount();
+//                    } catch (IOException ioe) {
+//                        errorLog.error("Monitoring data json parsing error", ioe);
+//                    }
+//                }
+//            }, 0, timedelta, TimeUnit.MINUTES);
+//            Runtime.getRuntime().addShutdownHook(new Thread() {
+//                @Override
+//                public void run() {
+//                    logger.info("Heartbeat Sender is closing");
+//                    monitorExecutorService.shutdown();
+//                    logger.info("Heartbeat Sender is closed");
+//                }
+//            });
+//        }
+//    }
 }

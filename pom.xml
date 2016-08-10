@@ -214,41 +214,26 @@
 
     <distributionManagement>
         <repository>
-            <id>skp-releases</id>
-            <name>skp-releases</name>
-            <url>http://mvn.skplanet.com/content/repositories/releases/</url>
+            <id>github.release.repo</id>
+            <url>https://raw.github.com/bulldog2011/bulldog-repo/master/repo/releases/</url>
         </repository>
         <snapshotRepository>
-            <id>skp-snapshots</id>
-            <name>skp-snapshots</name>
-            <url>http://mvn.skplanet.com/content/repositories/snapshots</url>
+            <id>github.release.repo</id>
+            <url>https://raw.github.com/bulldog2011/bulldog-repo/master/repo/releases/</url>
         </snapshotRepository>
     </distributionManagement>
 
     <repositories>
         <repository>
-            <id>skp-public</id>
-            <name>skplanet public repository</name>
-            <url>http://mvn.skplanet.com/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
+            <id>github.release.repo</id>
+            <url>https://raw.github.com/bulldog2011/bulldog-repo/master/repo/releases/</url>
         </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
-            <id>skp-public</id>
-            <name>skp public repository</name>
-            <url>http://mvn.skplanet.com/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
+            <id>jboss-repository</id>
+            <name>Jboss Repository for Maven</name>
+            <url>http://repository.jboss.com/maven2</url>
         </pluginRepository>
     </pluginRepositories>
 </project>
